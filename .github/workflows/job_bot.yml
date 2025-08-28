@@ -2,28 +2,30 @@ name: Daily Job Email (India Fresher)
 
 on:
   schedule:
-    # GitHub Actions uses UTC. 21:00 IST = 15:30 UTC
-    - cron: "30 15 * * *"
+    - cron: "30 15 * * *"   # runs at 9 PM IST
   workflow_dispatch:
 
 jobs:
-  run:
+  job-search:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install requests beautifulsoup4 smtplib
 
-      - name: Run bot
-        env:
-          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          RECIPIENT: ${{ secrets.RECIPIENT }}   # set to sushma231k@gmail.com
+      - name: Run Job Bot
         run: python job_bot.py
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+
+          
