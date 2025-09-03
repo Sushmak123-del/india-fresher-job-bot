@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests beautifulsoup4 smtplib
+          pip install requests beautifulsoup4
 
       - name: Run Job Bot
         run: python job_bot.py
